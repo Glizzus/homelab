@@ -1,0 +1,5 @@
+- name: Configure Router
+  hosts: router
+  gather_facts: false
+  roles:
+    - ddns

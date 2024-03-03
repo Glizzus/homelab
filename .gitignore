@@ -1,1 +1,5 @@
 secrets.yml
+
+secret.tfvars
+.terraform
+terraform.tfstate*

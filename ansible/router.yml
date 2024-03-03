@@ -3,3 +3,29 @@
   gather_facts: false
   roles:
     - ddns
+  tasks:
+    - name: Configure SSH port forwarding
+      ansible.builtin.blockinfile:
+        path: /etc/config/firewall
+        marker: "# {mark} ANSIBLE MANAGED BLOCK FOR SSH FORWARDING"
+        block: |
+          config redirect
+                  option name 'SSH-Forward'
+                  option src 'wan'
+                  option src_dport '22'
+                  option dest 'lan'
+                  option dest_ip '192.168.8.22'
+                  option dest_port '22'
+                  option proto 'tcp'
+                  option target 'DNAT'
+
+  handlers:
+    - name: Commit firewall configuration
+      ansible.builtin.command:
+        cmd: uci commit firewall
+      changed_when: true
+
+    - name: Restart firewall
+      ansible.builtin.service:
+        name: firewall
+        state: restarted

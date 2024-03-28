@@ -1,0 +1,8 @@
+- name: Include mysql tasks
+  ansible.builtin.include_tasks: mysql.yml
+
+- name: Include minio tasks
+  ansible.builtin.include_tasks: minio.yml
+
+- name: Include display-related tasks
+  ansible.builtin.include_tasks: display.yml

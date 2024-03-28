@@ -1,0 +1,7 @@
+- name: Install Necessary Utilities
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sudo
+    - wakeonlan

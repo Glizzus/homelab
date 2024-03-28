@@ -1,0 +1,5 @@
+ansible_user_hash: "{{ vault_ansible_user_password | password_hash('sha512') }}"
+
+# We skip this because WSL doesn't have an ssh server,
+# so there is no sshd_config file to edit.
+ansible_user_no_password_ssh: false

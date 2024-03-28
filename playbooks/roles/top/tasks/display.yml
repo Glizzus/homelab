@@ -1,0 +1,15 @@
+- name: Ensure grub default is CLI
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="text"'
+  notify:
+    - Update grub
+
+- name: Ensure lightdm is disabled
+  ansible.builtin.service:
+    # We do not want to stop the service in case someone is using it.
+    # We just don't want it to start on boot.
+    name: lightdm
+    enabled: false
+  become: true

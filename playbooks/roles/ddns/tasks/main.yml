@@ -1,0 +1,26 @@
+- name: Install the required packages
+  community.general.opkg:
+    update_cache: true
+    name:
+      - ddns-scripts
+      - ddns-scripts-cloudflare
+      - curl
+      - ca-bundle
+
+# This command is idempotent, so it's safe to run it every time.
+- name: Configure ddns-scripts
+  ansible.builtin.blockinfile:
+    path: /etc/config/ddns
+    block: |
+      config service 'cloudflare'
+          option 'service_name' 'cloudflare.com-v4'
+          option 'enabled'      '1'
+          option 'domain'       '{{ ddns_cloudflare_domain }}'
+          option 'username'     'Bearer'
+          option 'password'     '{{ ddns_cloudflare_api_key }}'
+          option 'interface'    'wan'
+          option 'ip_source'    'web'
+          option 'ip_url'       'http://ipv4.icanhazip.com'
+  notify:
+    - Commit ddns configuration
+    - Restart ddns

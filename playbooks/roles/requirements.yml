@@ -1,0 +1,11 @@
+collections:
+  - name: ansible.posix
+    version: '1.5.4'
+
+roles:
+  - name: geerlingguy.docker
+    version: '7.1.0'
+
+  - name: openwrt-pxe
+    src: https://github.com/Glizzus/ansible-role-openwrt-pxe
+    version: 725434e

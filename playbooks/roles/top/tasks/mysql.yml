@@ -1,0 +1,23 @@
+- name: Setup MySQL
+  become: true
+  block:
+    - name: Ensure /opt/mysql directory is present
+      ansible.builtin.file:
+        path: /opt/mysql
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml for MySQL
+      ansible.builtin.copy:
+        src: mysql/docker-compose.yml
+        dest: /opt/mysql/docker-compose.yml
+        mode: '0644'
+
+    - name: Start MySQL container
+      community.docker.docker_compose:
+        project_src: /opt/mysql
+        state: present
+      environment:
+        MYSQL_USER: "{{ mysql_user }}"
+        MYSQL_PASSWORD: "{{ mysql_password }}"
+        MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"

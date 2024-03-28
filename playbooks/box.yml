@@ -1,0 +1,5 @@
+- name: Configure GlizzBox
+  hosts: box
+  roles:
+    - box
+    - geerlingguy.docker

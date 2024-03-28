@@ -1,0 +1,4 @@
+ansible_user_authorized_keys:
+  - "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_rsa.pub') }}"
+ansible_user_name: ansible
+ansible_user_no_password_ssh: true

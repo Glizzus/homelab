@@ -1,0 +1,45 @@
+- name: Change root password
+  ansible.builtin.user:
+    name: root
+    password: "{{ router_root_password }}"
+
+- name: Configure SSH port forwarding
+  ansible.builtin.blockinfile:
+    path: /etc/config/firewall
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR SSH FORWARDING"
+    block: |
+      config redirect
+              option name 'SSH-Forward'
+              option src 'wan'
+              option src_dport '22'
+              option dest 'lan'
+              option dest_ip {{ router_ssh_host }}
+              option dest_port '22'
+              option proto 'tcp'
+              option target 'DNAT'
+  notify:
+    - Commit firewall configuration
+    - Restart firewall
+
+- name: Convert reserved DHCP addresses to configuration block
+  ansible.builtin.set_fact:
+    reserved_address_block: |
+      {% for static_lease in router_static_leases %}
+      config host
+              option name '{{ static_lease.name }}'
+              option mac '{{ static_lease.mac }}'
+              option ip '{{ static_lease.ip }}'
+      {% endfor %}
+
+- name: Display reserved DHCP addresses
+  ansible.builtin.debug:
+    msg: "{{ reserved_address_block }}"
+
+- name: Configure reserved DHCP addresses
+  ansible.builtin.blockinfile:
+    path: /etc/config/dhcp
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR RESERVED DHCP ADDRESSES"
+    block: "{{ reserved_address_block }}"
+  notify:
+    - Commit DHCP configuration
+    - Restart dnsmasq

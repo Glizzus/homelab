@@ -1,0 +1,8 @@
+ansible_user_hash: "{{ vault_ansible_user_password | password_hash('sha512') }}"
+
+mysql_user: mysql
+mysql_password: "{{ vault_mysql_password }}"
+mysql_root_password: "{{ vault_mysql_root_password }}"
+
+minio_access_key: "{{ vault_minio_access_key }}"
+minio_secret_key: "{{ vault_minio_secret_key }}"

@@ -1,0 +1,22 @@
+- name: Setup Minio
+  become: true
+  block:
+    - name: Ensure /opt/minio directory is present
+      ansible.builtin.file:
+        path: /opt/minio
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml for MinIO
+      ansible.builtin.copy:
+        src: minio/docker-compose.yml
+        dest: /opt/minio/docker-compose.yml
+        mode: '0644'
+
+    - name: Start MinIO container
+      community.docker.docker_compose:
+        project_src: /opt/minio
+        state: present
+      environment:
+        MINIO_ACCESS_KEY: "{{ minio_access_key }}"
+        MINIO_SECRET_KEY: "{{ minio_secret_key }}"

@@ -1,0 +1,21 @@
+router_ssh_host: '192.168.1.22'
+router_root_password: "{{ vault_router_root_password | password_hash('sha512') }}"
+router_static_leases:
+  - name: GlizzMachine
+    ip: '192.168.1.2'
+    mac: B0:7B:25:0E:0A:C2
+
+  - name: GlizzTop
+    ip: '192.168.1.3'
+    mac: 08:62:66:B3:4D:8C
+
+  - name: GlizzBox
+    ip: '192.168.1.22'
+    mac: 68:1D:EF:2A:F1:EE
+
+  - name: GlizzBooter
+    ip: '192.168.1.69'
+    mac: 34:98:B5:5E:76:8F
+
+ddns_cloudflare_domain: 'glizzus.net'
+ddns_cloudflare_api_key: "{{ vault_ddns_cloudflare_api_key }}"

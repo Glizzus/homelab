@@ -1,0 +1,9 @@
+- name: Commit ddns configuration
+  ansible.builtin.command: uci commit ddns
+  # If this gets triggered, then something is changing.
+  changed_when: true
+
+- name: Restart ddns
+  ansible.builtin.service:
+    name: ddns
+    state: restarted

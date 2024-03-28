@@ -1,0 +1,7 @@
+- name: Set up ansible user on host
+  hosts: all
+  become: true
+  # We become with su because there is no guarantee that sudo is installed
+  become_method: ansible.builtin.su
+  roles:
+    - ansible_user

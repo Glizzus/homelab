@@ -1,0 +1,5 @@
+- name: Configure GlizzMachine
+  hosts: GlizzMachineWsl
+  connection: local
+  roles:
+    - ansible_user

@@ -1,0 +1,9 @@
+- name: Configure GlizzTop
+  hosts: top
+  roles:
+    - role: geerlingguy.docker
+      vars:
+        # GlizzTop is running Linux Mint, which has different version names, but is based on Ubuntu.
+        docker_apt_gpg_key: https://download.docker.com/linux/ubuntu/gpg
+        docker_apt_repository: "deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable"
+    - role: top

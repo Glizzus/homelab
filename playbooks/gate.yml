@@ -1,0 +1,11 @@
+- name: Configure Router
+  hosts: GlizzGate
+  gather_facts: false
+  pre_tasks:
+    - name: Bootstrap python
+      ansible.builtin.raw: opkg update && opkg install python3
+      changed_when: true
+  roles:
+    - ddns
+    - router
+    - openwrt-pxe

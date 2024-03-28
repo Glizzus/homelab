@@ -1,0 +1,26 @@
+- name: Create Ansible user
+  ansible.builtin.user:
+    name: "{{ ansible_user_name }}"
+    password: "{{ ansible_user_hash }}"
+    shell: /bin/bash
+    groups:
+      - sudo
+  become: true
+
+- name: Ensure Ansible user has ssh key
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user_name }}"
+    key: "{{ item }}"
+  loop: "{{ ansible_user_authorized_keys }}"
+  become: true
+
+- name: Ensure Ansible user can not SSH with password
+  ansible.builtin.template:
+    src: ansible_user.conf.j2
+    dest: /etc/ssh/sshd_config.d/ansible_user.conf
+    validate: '/usr/sbin/sshd -t -f %s'
+    mode: '0644'
+  # We specify sudo because it adds /usr/sbin to the PATH, which contains sshd
+  when: ansible_user_no_password_ssh
+  notify:
+    - Restart sshd

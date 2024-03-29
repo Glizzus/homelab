@@ -1,4 +1,4 @@
-- name: Setup Minio
+- name: Setup MinIO
   become: true
   block:
     - name: Ensure /opt/minio directory is present
@@ -18,5 +18,5 @@
         project_src: /opt/minio
         state: present
       environment:
-        MINIO_ACCESS_KEY: "{{ minio_access_key }}"
-        MINIO_SECRET_KEY: "{{ minio_secret_key }}"
+        MINIO_ACCESS_KEY: "{{ top_minio_access_key }}"
+        MINIO_SECRET_KEY: "{{ top_minio_secret_key }}"

@@ -58,9 +58,34 @@ resource "cloudflare_record" "glizzus_net" {
   }
 }
 
+variable "cloudflare_records" {
+  description = "A list of Cloudflare DNS records to be created."
+  type = list(object({
+    name  = string
+    value   = string 
+  }))
+  default = [
+    {
+      name = "gate"
+      value = "192.168.1.1"
+    },
+    {
+      name = "top"
+      value = "192.168.1.3"
+    },
+    {
+      name = "box"
+      value = "192.168.1.22"
+    }
+  ]
+}
+
 resource "cloudflare_record" "internal_glizzus_net" {
-  name    = "*"
+  for_each = { for record in var.cloudflare_records : record.name => record }
+
+  name    = each.value.name
   type    = "A"
   zone_id = var.cloudflare_zone_id
-  value   = "192.168.8.22"
+  comment = "Managed by Terraform"
+  value   = each.value.value
 }

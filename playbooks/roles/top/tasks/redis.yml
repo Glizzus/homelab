@@ -1,0 +1,21 @@
+- name: Setup Redis
+  become: true
+  block:
+    - name: Ensure /opt/redis directory is present
+      ansible.builtin.file:
+        path: /opt/redis
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml for Redis
+      ansible.builtin.copy:
+        src: redis/docker-compose.yml
+        dest: /opt/redis/docker-compose.yml
+        mode: '0644'
+
+    - name: Start Redis container
+      community.docker.docker_compose:
+        project_src: /opt/redis
+        state: present
+      environment:
+        REDIS_PASSWORD: "{{ top_redis_password }}"

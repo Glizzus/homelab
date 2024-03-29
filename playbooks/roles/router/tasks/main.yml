@@ -43,3 +43,18 @@
   notify:
     - Commit DHCP configuration
     - Restart dnsmasq
+
+- name: Check if rebind protection is enabled
+  ansible.builtin.command:
+    cmd: uci get dhcp.@dnsmasq[0].rebind_protection
+  changed_when: false
+  register: rebind_protection
+
+- name: Disable rebind protection
+  ansible.builtin.command:
+    cmd: uci set dhcp.@dnsmasq[0].rebind_protection='0'
+  when: rebind_protection.stdout == '1'
+  changed_when: true
+  notify:
+    - Commit DHCP configuration
+    - Restart dnsmasq

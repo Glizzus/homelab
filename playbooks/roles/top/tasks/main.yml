@@ -4,5 +4,8 @@
 - name: Include minio tasks
   ansible.builtin.include_tasks: minio.yml
 
+- name: Include redis tasks
+  ansible.builtin.include_tasks: redis.yml
+
 - name: Include display-related tasks
   ansible.builtin.include_tasks: display.yml

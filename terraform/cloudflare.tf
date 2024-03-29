@@ -66,15 +66,15 @@ variable "cloudflare_records" {
   }))
   default = [
     {
-      name = "gate"
+      name = "*.gate"
       value = "192.168.1.1"
     },
     {
-      name = "top"
+      name = "*.top"
       value = "192.168.1.3"
     },
     {
-      name = "box"
+      name = "*.box"
       value = "192.168.1.22"
     }
   ]

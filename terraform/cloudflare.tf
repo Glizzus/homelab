@@ -39,7 +39,7 @@ provider "cloudflare" {
 variable "cloudflare_zone_id" {
   description = "The Cloudflare zone ID"
   type        = string
-  default     = "5160a6971536e107f477a6b4e6f08e86" 
+  default     = "5160a6971536e107f477a6b4e6f08e86"
 }
 
 resource "cloudflare_record" "glizzus_net" {
@@ -61,20 +61,20 @@ resource "cloudflare_record" "glizzus_net" {
 variable "cloudflare_records" {
   description = "A list of Cloudflare DNS records to be created."
   type = list(object({
-    name  = string
-    value   = string 
+    name = string
+    value = string
   }))
   default = [
     {
-      name = "*.gate"
+      name  = "gate",
       value = "192.168.1.1"
     },
     {
-      name = "*.top"
+      name  = "top",
       value = "192.168.1.3"
     },
     {
-      name = "*.box"
+      name  = "box",
       value = "192.168.1.22"
     }
   ]

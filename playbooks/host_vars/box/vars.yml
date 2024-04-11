@@ -1,1 +1,17 @@
 ansible_user_hash: "{{ vault_ansible_user_password | password_hash('sha512') }}"
+
+box_bigben_test_discord_token: "{{ vault_box_bigben_test_discord_token }}"
+box_bigben_test_client_id: "{{ vault_box_bigben_test_client_id }}"
+
+box_bigben_mariadb_host: top.glizzus.net
+box_bigben_test_redis_host: top.glizzus.net
+
+box_bigben_test_mariadb_password: "{{ vault_box_bigben_test_app_mariadb_password }}"
+box_bigben_test_mariadb_uri: mariadb://bigben_test_app:{{ box_bigben_test_mariadb_password | urlencode }}@{{ box_bigben_mariadb_host }}:3306/bigben_test
+box_bigben_test_flyway_url: jdbc:mariadb://{{ box_bigben_mariadb_host }}:3306/bigben_test
+box_bigben_test_flyway_user: bigben_test_migration
+box_bigben_test_flyway_password: "{{ vault_box_bigben_test_flyway_password }}"
+
+box_bigben_test_campa_tag: 2024-04-11T20-23-51Z
+box_bigben_test_chimer_tag: 2024-04-11T20-23-59Z
+box_bigben_test_flyway_tag: 2024-04-07t23-40-23z

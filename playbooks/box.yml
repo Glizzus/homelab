@@ -1,5 +1,8 @@
 - name: Configure GlizzBox
   hosts: box
   roles:
-    - box
-    - geerlingguy.docker
+    - role: geerlingguy.docker
+      become: true
+      docker_users:
+        - ansible
+    - role: box

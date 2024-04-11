@@ -18,6 +18,37 @@
         project_src: /opt/mysql
         state: present
       environment:
-        MYSQL_USER: "{{ top_mysql_user }}"
-        MYSQL_PASSWORD: "{{ top_mysql_password }}"
         MYSQL_ROOT_PASSWORD: "{{ top_mysql_root_password }}"
+
+    - name: Install PyMySQL
+      ansible.builtin.pip:
+        name: PyMySQL
+        state: present
+
+- name: Create bigben_test database
+  community.mysql.mysql_db:
+    login_user: root
+    login_password: "{{ top_mysql_root_password }}"
+
+    name: bigben_test
+    state: present
+
+- name: Create bigben_test user
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ top_mysql_root_password }}"
+
+    name: bigben_test_app
+    host: '%'
+    password: "{{ top_bigben_test_app_mysql_password }}"
+    priv: "bigben_test.*:SELECT,INSERT,UPDATE,DELETE"
+
+- name: Create bigben_test_migration user
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ top_mysql_root_password }}"
+
+    name: bigben_test_migration
+    host: '%'
+    password: "{{ top_bigben_test_migration_mysql_password }}"
+    priv: "bigben_test.*:ALL"

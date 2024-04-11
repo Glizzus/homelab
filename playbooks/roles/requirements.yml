@@ -9,6 +9,9 @@ roles:
   - name: geerlingguy.docker
     version: '7.1.0'
 
+  - name: geerlingguy.pip
+    version: '3.0.3'
+
   - name: openwrt-pxe
     src: https://github.com/Glizzus/ansible-role-openwrt-pxe
     version: 725434e

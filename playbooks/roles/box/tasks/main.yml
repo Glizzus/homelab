@@ -2,6 +2,42 @@
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
+  become: true
   loop:
     - sudo
     - wakeonlan
+
+- name: Setup Bigben Test
+  become: true
+  block:
+    - name: Ensure /opt/bigben-test directory is present
+      ansible.builtin.file:
+        path: /opt/bigben-test
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml for Bigben Test
+      ansible.builtin.copy:
+        src: bigben-test/docker-compose.yml
+        dest: /opt/bigben-test/docker-compose.yml
+        mode: '0644'
+
+    - name: Start Bigben Test
+      community.docker.docker_compose_v2:
+        project_src: /opt/bigben-test
+        state: present
+        recreate: always
+      environment:
+        CAMPA_TAG: "{{ box_bigben_test_campa_tag }}"
+        CHIMER_TAG: "{{ box_bigben_test_chimer_tag }}"
+        FLYWAY_TAG: "{{ box_bigben_test_flyway_tag }}"
+
+        DISCORD_TOKEN: "{{ box_bigben_test_discord_token }}"
+        CLIENT_ID: "{{ box_bigben_test_client_id }}"
+        REDIS_HOST: "{{ box_bigben_test_redis_host }}"
+
+        MARIADB_URI: "{{ box_bigben_test_mariadb_uri }}"
+
+        FLYWAY_URL: "{{ box_bigben_test_flyway_url }}"
+        FLYWAY_USER: "{{ box_bigben_test_flyway_user }}"
+        FLYWAY_PASSWORD: "{{ box_bigben_test_flyway_password }}"

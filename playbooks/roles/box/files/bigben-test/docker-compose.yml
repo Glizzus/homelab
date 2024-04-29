@@ -1,11 +1,9 @@
-version: '3.8'
-
 x-common:
   chimer: &chimer
     image: ghcr.io/glizzus/bigben/chimer:${CHIMER_TAG}
     environment:
-      DISCORD_TOKEN: ${DISCORD_TOKEN}
-      REDIS_HOST: ${REDIS_HOST}
+      CHIMER_DISCORD_TOKEN: ${DISCORD_TOKEN}
+      CHIMER_REDIS_HOST: ${REDIS_HOST}
       DEBUG: chimer:*
 
 services:

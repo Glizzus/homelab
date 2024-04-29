@@ -12,6 +12,6 @@ box_bigben_test_flyway_url: jdbc:mariadb://{{ box_bigben_mariadb_host }}:3306/bi
 box_bigben_test_flyway_user: bigben_test_migration
 box_bigben_test_flyway_password: "{{ vault_box_bigben_test_flyway_password }}"
 
-box_bigben_test_campa_tag: 2024-04-11T20-23-51Z
-box_bigben_test_chimer_tag: 2024-04-11T20-23-59Z
-box_bigben_test_flyway_tag: 2024-04-07t23-40-23z
+box_bigben_test_campa_tag: 2024-04-29t18-37-15z
+box_bigben_test_chimer_tag: 2024-04-28t23-22-18z
+box_bigben_test_flyway_tag: 2024-04-28t23-22-32z
